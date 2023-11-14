@@ -7,14 +7,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {styles} from './styles';
 import colors from '../../theme/colors';
+import {Comment} from '../Comment';
+import {IPost} from '../../Models';
 
 type FeedPostProps = {
-  post: any;
+  post: IPost;
 };
 
 export const FeedPost: FC<FeedPostProps> = ({post}) => {
   return (
-    <View style={styles.post}>
+    <View>
       <View style={styles.header}>
         <Image
           style={styles.avatar}
@@ -75,13 +77,9 @@ export const FeedPost: FC<FeedPostProps> = ({post}) => {
         </Text>
 
         <Text>View all {post.nofComments} comments</Text>
-        <View style={styles.comment}>
-          <Text style={styles.commentText}>
-            <Text style={styles.bold}>ymeskini</Text> Lorem ipsum dolor sit amet
-            consectetur adipisicing elit.
-          </Text>
-          <AntDesign name="hearto" style={styles.icon} color={colors.black} />
-        </View>
+        {post.comments.map(comment => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
         <Text>{post.createdAt}</Text>
       </View>
     </View>

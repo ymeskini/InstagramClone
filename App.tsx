@@ -12,6 +12,8 @@ const post = {
   user: {
     image: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/1.jpg',
     username: 'vadimnotjustdev',
+    id: '2',
+    name: 'Vadim',
   },
   nofComments: 11,
   nofLikes: 33,
@@ -21,6 +23,8 @@ const post = {
       comment: 'Hello there',
       user: {
         username: 'vadimnotjustdev',
+        id: '2',
+        name: 'Vadim',
       },
     },
     {
@@ -28,6 +32,8 @@ const post = {
       comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. H',
       user: {
         username: 'vadimnotjustdev',
+        id: '2',
+        name: 'Vadim',
       },
     },
   ],
