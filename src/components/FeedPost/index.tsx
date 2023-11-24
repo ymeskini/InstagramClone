@@ -10,6 +10,7 @@ import colors from '../../theme/colors';
 import {Comment} from '../Comment';
 import {IPost} from '../../Models';
 import {DoublePress} from '../DoublePress';
+import {Carousel} from '../Carousel';
 
 type FeedPostProps = {
   post: IPost;
@@ -18,6 +19,28 @@ type FeedPostProps = {
 export const FeedPost: FC<FeedPostProps> = ({post}) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+
+  let content = null;
+
+  if (post.image) {
+    content = (
+      <DoublePress onDoublePress={() => setIsLiked(val => !val)}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: post.image,
+          }}
+        />
+      </DoublePress>
+    );
+  } else if (post.images) {
+    content = (
+      <Carousel
+        onDoublePress={() => setIsLiked(val => !val)}
+        images={post.images}
+      />
+    );
+  }
 
   return (
     <View>
@@ -36,14 +59,7 @@ export const FeedPost: FC<FeedPostProps> = ({post}) => {
         />
       </View>
 
-      <DoublePress onDoublePress={() => setIsLiked(val => !val)}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: post.image,
-          }}
-        />
-      </DoublePress>
+      {content}
 
       <View style={styles.footer}>
         <View style={styles.iconContainer}>
