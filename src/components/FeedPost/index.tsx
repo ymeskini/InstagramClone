@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {Image, Text, View} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -9,12 +9,16 @@ import {styles} from './styles';
 import colors from '../../theme/colors';
 import {Comment} from '../Comment';
 import {IPost} from '../../Models';
+import {DoublePress} from '../DoublePress';
 
 type FeedPostProps = {
   post: IPost;
 };
 
 export const FeedPost: FC<FeedPostProps> = ({post}) => {
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <View>
       <View style={styles.header}>
@@ -31,20 +35,26 @@ export const FeedPost: FC<FeedPostProps> = ({post}) => {
           style={styles.threeDots}
         />
       </View>
-      <Image
-        style={styles.image}
-        source={{
-          uri: post.image,
-        }}
-      />
+
+      <DoublePress onDoublePress={() => setIsLiked(val => !val)}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: post.image,
+          }}
+        />
+      </DoublePress>
 
       <View style={styles.footer}>
         <View style={styles.iconContainer}>
           <AntDesign
-            name={'hearto'}
+            name={isLiked ? 'heart' : 'hearto'}
             size={24}
             style={styles.icon}
-            color={colors.black}
+            color={isLiked ? colors.accent : colors.black}
+            onPress={() => {
+              setIsLiked(val => !val);
+            }}
           />
           <Ionicons
             name="chatbubble-outline"
@@ -71,9 +81,15 @@ export const FeedPost: FC<FeedPostProps> = ({post}) => {
           <Text style={styles.bold}>{post.nofLikes} others</Text>
         </Text>
 
-        <Text style={styles.text}>
+        <Text style={styles.text} numberOfLines={isDescriptionExpanded ? 3 : 1}>
           <Text style={styles.bold}>{post.user.username}</Text>{' '}
           {post.description}
+        </Text>
+        <Text
+          onPress={() => {
+            setIsDescriptionExpanded(val => !val);
+          }}>
+          {isDescriptionExpanded ? 'less' : 'more'}
         </Text>
 
         <Text>View all {post.nofComments} comments</Text>

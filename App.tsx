@@ -1,53 +1,13 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 
-import {FeedPost} from './src/components/FeedPost';
+import HomeScreen from './src/screens/HomeScreen';
 
-const post = {
-  id: '1',
-  createdAt: '19 December 2021',
-  image: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/1.jpg',
-  description:
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?',
-  user: {
-    image: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/1.jpg',
-    username: 'vadimnotjustdev',
-    id: '2',
-    name: 'Vadim',
-  },
-  nofComments: 11,
-  nofLikes: 33,
-  comments: [
-    {
-      id: '1',
-      comment: 'Hello there',
-      user: {
-        username: 'vadimnotjustdev',
-        id: '2',
-        name: 'Vadim',
-      },
-    },
-    {
-      id: '2',
-      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. H',
-      user: {
-        username: 'vadimnotjustdev',
-        id: '2',
-        name: 'Vadim',
-      },
-    },
-  ],
-};
-
-function App(): JSX.Element {
-  return (
-    <SafeAreaView style={styles.root}>
-      <ScrollView>
-        <FeedPost post={post} />
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+const App = () => (
+  <SafeAreaView style={styles.root}>
+    <HomeScreen />
+  </SafeAreaView>
+);
 
 const styles = StyleSheet.create({
   root: {
