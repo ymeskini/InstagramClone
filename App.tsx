@@ -2,10 +2,13 @@ import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
 import HomeScreen from './src/screens/HomeScreen';
+import {CommentsScreen} from './src/screens/CommentsScreen';
+import comments from './src/data/comments.json';
 
 const App = () => (
   <SafeAreaView style={styles.root}>
-    <HomeScreen />
+    {/* <HomeScreen /> */}
+    <CommentsScreen comments={comments} />
   </SafeAreaView>
 );
 
