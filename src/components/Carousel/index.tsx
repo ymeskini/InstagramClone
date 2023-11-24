@@ -10,14 +10,11 @@ import {
 import {DoublePress} from '../DoublePress';
 import {styles} from './styles';
 import colors from '../../theme/colors';
+import {viewabilityConfig} from '../../constants/viewabilityConfig';
 
 type CarouselProps = {
   images: string[];
   onDoublePress: () => void;
-};
-
-const viewabilityConfig = {
-  itemVisiblePercentThreshold: 51,
 };
 
 export const Carousel: FC<CarouselProps> = ({images, onDoublePress}) => {

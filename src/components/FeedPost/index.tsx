@@ -11,12 +11,14 @@ import {Comment} from '../Comment';
 import {IPost} from '../../Models';
 import {DoublePress} from '../DoublePress';
 import {Carousel} from '../Carousel';
+import {VideoPlayer} from '../VideoPlayer';
 
 type FeedPostProps = {
   post: IPost;
+  isVisible: boolean;
 };
 
-export const FeedPost: FC<FeedPostProps> = ({post}) => {
+export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -39,6 +41,12 @@ export const FeedPost: FC<FeedPostProps> = ({post}) => {
         onDoublePress={() => setIsLiked(val => !val)}
         images={post.images}
       />
+    );
+  } else if (post.video) {
+    content = (
+      <DoublePress onDoublePress={() => setIsLiked(val => !val)}>
+        <VideoPlayer uri={post.video} paused={!isVisible} />
+      </DoublePress>
     );
   }
 
