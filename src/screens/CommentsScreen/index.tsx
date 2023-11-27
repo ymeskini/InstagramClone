@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {FlatList, View} from 'react-native';
-import {IComment} from '../../Models';
+import {IComment} from '../../types/models';
 import {Comment} from '../../components/Comment';
 import {styles} from './styles';
 import {Input} from '../../components/Input';

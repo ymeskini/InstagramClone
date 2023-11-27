@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Image, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {IPost} from '../../Models';
+import {IPost} from '../../types/models';
 import {styles} from './styles';
 import colors from '../../theme/colors';
 

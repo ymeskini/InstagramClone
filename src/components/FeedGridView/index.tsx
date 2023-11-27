@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {FlatList} from 'react-native';
 
-import {IPost} from '../../Models';
+import {IPost} from '../../types/models';
 import {FeedGreedItem} from './FeedGridItem';
 
 type FeedGridViewProps = {

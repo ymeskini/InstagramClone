@@ -25,12 +25,13 @@ export const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   input: {
-    flex: 1,
-    borderColor: colors.border,
     borderBottomWidth: 1,
     height: 40,
   },
   inputLabel: {
     width: 75,
+  },
+  inputWrapper: {
+    flex: 1,
   },
 });

@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {styles} from './styles';
 import colors from '../../theme/colors';
 import {Comment} from '../Comment';
-import {IPost} from '../../Models';
+import {IPost} from '../../types/models';
 import {DoublePress} from '../DoublePress';
 import {Carousel} from '../Carousel';
 import {VideoPlayer} from '../VideoPlayer';

@@ -3,7 +3,7 @@ import {Image, Text, View, Pressable} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {styles} from './styles';
 import colors from '../../theme/colors';
-import {IComment} from '../../Models';
+import {IComment} from '../../types/models';
 
 type ComponentProps = {
   comment: IComment;
