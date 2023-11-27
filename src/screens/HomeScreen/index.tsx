@@ -5,7 +5,7 @@ import posts from '../../data/posts.json';
 import {FeedPost} from '../../components/FeedPost';
 import {viewabilityConfig} from '../../constants/viewabilityConfig';
 
-const HomeScreen = () => {
+export const HomeScreen = () => {
   const [activePostId, setActivePostId] = useState<null | string>(null);
 
   const onViewableItemsChanged: MutableRefObject<
@@ -29,5 +29,3 @@ const HomeScreen = () => {
     />
   );
 };
-
-export default HomeScreen;
