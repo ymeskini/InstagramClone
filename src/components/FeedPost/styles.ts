@@ -40,4 +40,8 @@ export const styles = StyleSheet.create({
     color: colors.black,
     lineHeight: 18,
   },
+  profileButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });

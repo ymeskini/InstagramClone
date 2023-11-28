@@ -6,9 +6,8 @@ import {ProfileHeader} from './ProfileHeader';
 import {FeedGridView} from '../../components/FeedGridView';
 
 export const ProfileScreen = () => {
-  const {
-    params: {userId},
-  } = useRoute();
+  const {params} = useRoute();
+  const userId = params?.userId;
 
   // get user by id
   return (

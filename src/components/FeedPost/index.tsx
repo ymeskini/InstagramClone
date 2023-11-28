@@ -4,6 +4,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 import {styles} from './styles';
 import colors from '../../theme/colors';
@@ -12,7 +13,6 @@ import {IPost} from '../../types/models';
 import {DoublePress} from '../DoublePress';
 import {Carousel} from '../Carousel';
 import {VideoPlayer} from '../VideoPlayer';
-import {useNavigation} from '@react-navigation/native';
 
 type FeedPostProps = {
   post: IPost;
@@ -56,12 +56,9 @@ export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
     <View>
       <View style={styles.header}>
         <Pressable
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
+          style={styles.profileButton}
           onPress={() => {
-            navigation.navigate('profile', {userId: post.user.id});
+            navigation.navigate('UserProfile', {userId: post.user.id});
           }}>
           <Image
             style={styles.avatar}
