@@ -24,6 +24,10 @@ export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
 
+  const navigateToComments = () => {
+    navigation.navigate('Comments', {postId: post.id});
+  };
+
   let content = null;
 
   if (post.image) {
@@ -124,7 +128,9 @@ export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
           {isDescriptionExpanded ? 'less' : 'more'}
         </Text>
 
-        <Text>View all {post.nofComments} comments</Text>
+        <Text onPress={navigateToComments}>
+          View all {post.nofComments} comments
+        </Text>
         {post.comments.map(comment => (
           <Comment key={comment.id} comment={comment} />
         ))}

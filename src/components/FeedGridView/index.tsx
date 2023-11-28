@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 
 import {IPost} from '../../types/models';
 import {FeedGreedItem} from './FeedGridItem';
@@ -15,9 +15,7 @@ export const FeedGridView: FC<FeedGridViewProps> = ({
 }) => {
   return (
     <FlatList
-      style={{
-        marginHorizontal: -1,
-      }}
+      style={styles.list}
       data={data}
       renderItem={({item}) => <FeedGreedItem post={item} />}
       showsVerticalScrollIndicator={false}
@@ -26,3 +24,9 @@ export const FeedGridView: FC<FeedGridViewProps> = ({
     />
   );
 };
+
+const styles = StyleSheet.create({
+  list: {
+    marginHorizontal: -1,
+  },
+});

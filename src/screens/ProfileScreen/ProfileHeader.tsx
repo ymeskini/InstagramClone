@@ -1,11 +1,13 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import userData from '../../data/user.json';
 import {styles} from './styles';
 import {Button} from '../../components/Button';
 
 export const ProfileHeader = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.root}>
       <View style={styles.headerRow}>
@@ -31,7 +33,7 @@ export const ProfileHeader = () => {
         <Button
           text="Edit Profile"
           onPress={() => {
-            console.warn('Edit Profile');
+            navigation.navigate('EditProfile');
           }}
         />
         <Button

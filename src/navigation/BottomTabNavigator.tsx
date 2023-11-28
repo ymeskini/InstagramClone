@@ -5,10 +5,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {ProfileScreen} from '../screens/ProfileScreen';
 import {PostUploadScreen} from '../screens/PostUploadScreen';
 import colors from '../theme/colors';
 import {HomeStackNavigator} from './HomeStackNavigator';
+import {ProfileStackNavigator} from './ProfileStackNavigator';
 
 const Navigator = createBottomTabNavigator();
 
@@ -45,11 +45,12 @@ export const BottomTabNavigator = () => {
       />
       <Navigator.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({color, size}) => (
             <FontAwesome name="user-circle-o" size={size} color={color} />
           ),
         }}
-        component={ProfileScreen}
+        component={ProfileStackNavigator}
         name="MyProfile"
       />
     </Navigator.Navigator>
