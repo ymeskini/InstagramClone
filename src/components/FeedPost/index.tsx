@@ -13,6 +13,7 @@ import {IPost} from '../../types/models';
 import {DoublePress} from '../DoublePress';
 import {Carousel} from '../Carousel';
 import {VideoPlayer} from '../VideoPlayer';
+import {FeedNavigationProp} from '../../types/navigation';
 
 type FeedPostProps = {
   post: IPost;
@@ -22,10 +23,14 @@ type FeedPostProps = {
 export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<FeedNavigationProp>();
 
   const navigateToComments = () => {
     navigation.navigate('Comments', {postId: post.id});
+  };
+
+  const navigateToUser = () => {
+    navigation.navigate('UserProfile', {userId: post.user.id});
   };
 
   let content = null;
@@ -59,11 +64,7 @@ export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
   return (
     <View>
       <View style={styles.header}>
-        <Pressable
-          style={styles.profileButton}
-          onPress={() => {
-            navigation.navigate('UserProfile', {userId: post.user.id});
-          }}>
+        <Pressable style={styles.profileButton} onPress={navigateToUser}>
           <Image
             style={styles.avatar}
             source={{

@@ -5,9 +5,10 @@ import {useNavigation} from '@react-navigation/native';
 import userData from '../../data/user.json';
 import {styles} from './styles';
 import {Button} from '../../components/Button';
+import {ProfileNavigationProp} from '../../types/navigation';
 
 export const ProfileHeader = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileNavigationProp>();
   return (
     <View style={styles.root}>
       <View style={styles.headerRow}>

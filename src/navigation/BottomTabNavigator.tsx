@@ -9,8 +9,9 @@ import {PostUploadScreen} from '../screens/PostUploadScreen';
 import colors from '../theme/colors';
 import {HomeStackNavigator} from './HomeStackNavigator';
 import {ProfileStackNavigator} from './ProfileStackNavigator';
+import {BottomTabParamList} from '../types/navigation';
 
-const Navigator = createBottomTabNavigator();
+const Navigator = createBottomTabNavigator<BottomTabParamList>();
 
 export const BottomTabNavigator = () => {
   return (
@@ -27,7 +28,7 @@ export const BottomTabNavigator = () => {
           headerShown: false,
         }}
         component={HomeStackNavigator}
-        name="home"
+        name="HomeStack"
       />
       <Navigator.Screen
         options={{
@@ -41,7 +42,7 @@ export const BottomTabNavigator = () => {
           ),
         }}
         component={PostUploadScreen}
-        name="upload_screen"
+        name="Upload"
       />
       <Navigator.Screen
         options={{
