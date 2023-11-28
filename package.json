@@ -11,6 +11,7 @@
     "device:usb": "adb -s ebe512c2 reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
+    "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "expo": "^49.0.0",

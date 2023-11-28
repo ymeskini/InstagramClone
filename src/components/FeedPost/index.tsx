@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,6 +12,7 @@ import {IPost} from '../../types/models';
 import {DoublePress} from '../DoublePress';
 import {Carousel} from '../Carousel';
 import {VideoPlayer} from '../VideoPlayer';
+import {useNavigation} from '@react-navigation/native';
 
 type FeedPostProps = {
   post: IPost;
@@ -21,6 +22,7 @@ type FeedPostProps = {
 export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const navigation = useNavigation();
 
   let content = null;
 
@@ -53,13 +55,22 @@ export const FeedPost: FC<FeedPostProps> = ({post, isVisible}) => {
   return (
     <View>
       <View style={styles.header}>
-        <Image
-          style={styles.avatar}
-          source={{
-            uri: post.user.image,
+        <Pressable
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
-        />
-        <Text style={styles.username}>{post.user.username}</Text>
+          onPress={() => {
+            navigation.navigate('profile', {userId: post.user.id});
+          }}>
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: post.user.image,
+            }}
+          />
+          <Text style={styles.username}>{post.user.username}</Text>
+        </Pressable>
         <Entypo
           name="dots-three-horizontal"
           size={16}
