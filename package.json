@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "device:usb": "adb -s ebe512c2 reverse tcp:8081 tcp:8081"
+    "device:usb": "adb -s ebe512c2 reverse tcp:8081 tcp:8081",
+    "deep-link": "npx uri-scheme open instagramclone://comments --android"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.11",

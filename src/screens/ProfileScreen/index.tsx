@@ -19,6 +19,8 @@ export const ProfileScreen = () => {
 
   const userId = params?.userId;
 
+  console.warn('userId', userId);
+
   return (
     <FeedGridView ListHeaderComponent={ProfileHeader} data={userData.posts} />
   );

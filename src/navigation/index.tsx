@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {LinkingOptions, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {BottomTabNavigator} from './BottomTabNavigator';
@@ -8,9 +8,28 @@ import {RootNavigatorParams} from '../types/navigation';
 
 const Stack = createNativeStackNavigator<RootNavigatorParams>();
 
+const linking: LinkingOptions<RootNavigatorParams> = {
+  prefixes: ['instagramclone://', 'https://instagramclone.com'],
+  config: {
+    screens: {
+      Comments: 'comments', // instagramclone://comments
+      Home: {
+        screens: {
+          HomeStack: {
+            initialRouteName: 'Feed',
+            screens: {
+              UserProfile: 'user/:userId', // instagramclone://user/1
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const Navigation = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
