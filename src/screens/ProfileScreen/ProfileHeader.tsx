@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {signOut} from 'aws-amplify/auth';
 
 import userData from '../../data/user.json';
 import {styles} from './styles';
@@ -38,9 +39,9 @@ export const ProfileHeader = () => {
           }}
         />
         <Button
-          text="Another Button"
+          text="Sign out"
           onPress={() => {
-            console.warn('Edit Profile');
+            signOut();
           }}
         />
       </View>
