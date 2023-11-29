@@ -13,6 +13,7 @@ export type BottomTabParamList = {
   HomeStack: undefined;
   Upload: undefined;
   MyProfile: undefined;
+  Search: undefined;
 };
 
 export type MyUserProfileNavigationProp = BottomTabNavigationProp<
@@ -53,3 +54,8 @@ export type ProfileNavigationProp = NativeStackNavigationProp<
   ProfileStackNavigatorParamList,
   'Profile'
 >;
+
+export type SearchTabNavigatorParamList = {
+  Users: undefined;
+  Posts: undefined;
+};
