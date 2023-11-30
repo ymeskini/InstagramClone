@@ -30,7 +30,7 @@ const ConfirmEmailScreen = () => {
     try {
       await confirmSignUp({
         confirmationCode: data.code,
-        username: route.params.username as string,
+        username: route.params.email,
       });
       navigation.navigate('Sign in');
     } catch (err) {
@@ -45,7 +45,7 @@ const ConfirmEmailScreen = () => {
   const onResendPress = async () => {
     try {
       await resendSignUpCode({
-        username: route.params.username as string,
+        username: route.params.email,
       });
       Alert.alert('Code resent successfully');
     } catch (err) {

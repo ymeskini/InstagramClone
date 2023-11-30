@@ -35,17 +35,18 @@ export const Navigation = () => {
   const [userSession, setUserSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const fetchUserSession = async () => {
+    try {
+      const session = await fetchAuthSession({forceRefresh: true});
+      setUserSession(session);
+    } catch (error) {
+      // no session?
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchUserSession = async () => {
-      try {
-        const session = await fetchAuthSession({forceRefresh: true});
-        setUserSession(session);
-      } catch (error) {
-        // no session?
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchUserSession();
   }, []);
 
@@ -53,6 +54,10 @@ export const Navigation = () => {
     const listener = Hub.listen('auth', data => {
       if (data.payload.event === 'signedOut') {
         setUserSession(null);
+      }
+
+      if (data.payload.event === 'signedIn') {
+        fetchUserSession();
       }
     });
 
@@ -72,7 +77,7 @@ export const Navigation = () => {
         screenOptions={{
           headerShown: true,
         }}>
-        {!userSession ? (
+        {!userSession?.identityId ? (
           <Stack.Screen
             options={{
               headerShown: false,

@@ -65,10 +65,10 @@ export type SearchTabNavigatorParamList = {
 export type AuthStackNavigatorParamList = {
   'Sign in': undefined;
   'Sign up': undefined;
-  'Confirm email': {username: string};
+  'Confirm email': {email: string};
   'Forgot password': undefined;
   'New password': {
-    username: string;
+    email: string;
   };
 };
 

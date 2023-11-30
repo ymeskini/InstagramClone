@@ -15,10 +15,10 @@ import {SignInNavigationProp} from '../../../types/navigation';
 import Logo from '../../../assets/logo.png';
 import FormInput from '../components/FormInput';
 import CustomButton from '../components/CustomButton';
-import SocialSignInButtons from '../components/SocialSignInButtons';
+import {EMAIL_REGEX} from '../../../constants/regex';
 
 type SignInData = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -36,12 +36,12 @@ const SignInScreen = () => {
   const onSignInPressed = async (data: SignInData) => {
     try {
       await signIn({
-        username: data.username,
+        username: data.email,
         password: data.password,
       });
     } catch (err) {
       if ((err as Error).name === 'UserNotConfirmedException') {
-        navigation.navigate('Confirm email', {username: data.username});
+        navigation.navigate('Confirm email', {email: data.email});
         return;
       }
       Alert.alert('Failed to sign it', (err as Error).message);
@@ -68,10 +68,13 @@ const SignInScreen = () => {
         />
 
         <FormInput
-          name="username"
-          placeholder="Username"
+          name="email"
+          placeholder="Email"
           control={control}
-          rules={{required: 'Username is required'}}
+          rules={{
+            required: 'Email is required',
+            pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+          }}
         />
 
         <FormInput
@@ -99,7 +102,7 @@ const SignInScreen = () => {
           type="TERTIARY"
         />
 
-        <SocialSignInButtons />
+        {/* <SocialSignInButtons /> */}
 
         <CustomButton
           text="Don't have an account? Create one"

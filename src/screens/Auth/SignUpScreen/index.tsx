@@ -6,15 +6,13 @@ import {signUp} from 'aws-amplify/auth';
 
 import FormInput from '../components/FormInput';
 import CustomButton from '../components/CustomButton';
-import SocialSignInButtons from '../components/SocialSignInButtons';
 import {SignUpNavigationProp} from '../../../types/navigation';
 import colors from '../../../theme/colors';
-import {EMAIL_REGEX, USERNAME_REGEX} from '../../../constants/regex';
+import {EMAIL_REGEX} from '../../../constants/regex';
 
 type SignUpData = {
   name: string;
   email: string;
-  username: string;
   password: string;
   passwordRepeat: string;
 };
@@ -29,15 +27,10 @@ const SignUpScreen = () => {
   const pwd = watch('password');
   const navigation = useNavigation<SignUpNavigationProp>();
 
-  const onRegisterPressed = async ({
-    name,
-    email,
-    username,
-    password,
-  }: SignUpData) => {
+  const onRegisterPressed = async ({name, email, password}: SignUpData) => {
     try {
       await signUp({
-        username,
+        username: email,
         password,
         options: {
           userAttributes: {
@@ -46,7 +39,7 @@ const SignUpScreen = () => {
           },
         },
       });
-      navigation.navigate('Confirm email', {username});
+      navigation.navigate('Confirm email', {email});
     } catch (err) {
       Alert.alert('Failed to sign up', (err as Error).message);
     }
@@ -86,26 +79,6 @@ const SignUpScreen = () => {
           }}
         />
 
-        <FormInput
-          name="username"
-          control={control}
-          placeholder="Username"
-          rules={{
-            required: 'Username is required',
-            minLength: {
-              value: 3,
-              message: 'Username should be at least 3 characters long',
-            },
-            maxLength: {
-              value: 24,
-              message: 'Username should be max 24 characters long',
-            },
-            pattern: {
-              value: USERNAME_REGEX,
-              message: 'Username can only contain a-z, 0-9, _',
-            },
-          }}
-        />
         <FormInput
           name="email"
           control={control}
@@ -155,7 +128,7 @@ const SignUpScreen = () => {
           </Text>
         </Text>
 
-        <SocialSignInButtons />
+        {/* <SocialSignInButtons /> */}
 
         <CustomButton
           text="Have an account? Sign in"

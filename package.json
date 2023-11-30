@@ -9,6 +9,7 @@
     "start": "react-native start",
     "test": "jest",
     "device:usb": "adb -s ebe512c2 reverse tcp:8081 tcp:8081",
+    "device": "adb -s adb-ebe512c2-KpV1ok._adb-tls-connect._tcp. reverse tcp:8081 tcp:8081",
     "deep-link": "npx uri-scheme open instagramclone://comments --android",
     "amplify:pull": "amplify pull --appId d3hhi6fanjf4f0 --envName staging"
   },

@@ -18,6 +18,7 @@ type NewPasswordType = {
 
 const NewPasswordScreen = () => {
   const route = useRoute<NewPasswordRouteProps>();
+  const navigation = useNavigation<NewPasswordNavigationProp>();
 
   const {
     control,
@@ -25,14 +26,12 @@ const NewPasswordScreen = () => {
     formState: {isSubmitting},
   } = useForm<NewPasswordType>();
 
-  const navigation = useNavigation<NewPasswordNavigationProp>();
-
   const onSubmitPressed = async (data: NewPasswordType) => {
     try {
       await confirmResetPassword({
         confirmationCode: data.code,
         newPassword: data.password,
-        username: route.params.username,
+        username: route.params.email,
       });
       navigation.navigate('Sign in');
     } catch (err) {

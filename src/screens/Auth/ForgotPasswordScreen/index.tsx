@@ -7,9 +7,10 @@ import {resetPassword} from 'aws-amplify/auth';
 import FormInput from '../components/FormInput';
 import CustomButton from '../components/CustomButton';
 import {ForgotPasswordNavigationProp} from '../../../types/navigation';
+import {EMAIL_REGEX} from '../../../constants/regex';
 
 type ForgotPasswordData = {
-  username: string;
+  email: string;
 };
 
 const ForgotPasswordScreen = () => {
@@ -23,10 +24,10 @@ const ForgotPasswordScreen = () => {
   const onSendPressed = async (data: ForgotPasswordData) => {
     try {
       await resetPassword({
-        username: data.username,
+        username: data.email,
       });
       navigation.navigate('New password', {
-        username: data.username,
+        email: data.email,
       });
     } catch (err) {
       Alert.alert('Failed to send email', (err as Error).message);
@@ -43,11 +44,12 @@ const ForgotPasswordScreen = () => {
         <Text style={styles.title}>Reset your password</Text>
 
         <FormInput
-          name="username"
+          name="email"
           control={control}
-          placeholder="Username"
+          placeholder="Email"
           rules={{
-            required: 'Username is required',
+            required: 'Email is required',
+            pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
           }}
         />
 
