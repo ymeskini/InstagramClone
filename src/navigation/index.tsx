@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BottomTabNavigator} from './BottomTabNavigator';
 import {CommentsScreen} from '../screens/CommentsScreen';
 import {RootNavigatorParams} from '../types/navigation';
+import AuthStackNavigator from './AuthStackNavigator';
 
 const Stack = createNativeStackNavigator<RootNavigatorParams>();
 
@@ -31,10 +32,17 @@ export const Navigation = () => {
   return (
     <NavigationContainer linking={linking}>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Auth"
         screenOptions={{
           headerShown: true,
         }}>
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Auth"
+          component={AuthStackNavigator}
+        />
         <Stack.Screen
           options={{
             headerShown: false,
