@@ -2,10 +2,10 @@ import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {Amplify} from 'aws-amplify';
 
-import amplifyconfig from './src/amplifyconfiguration.json';
+import amplifyConfig from './src/amplifyconfiguration.json';
 import {Navigation} from './src/navigation';
 
-Amplify.configure(amplifyconfig);
+Amplify.configure(amplifyConfig);
 
 const App = () => (
   <SafeAreaView style={styles.root}>

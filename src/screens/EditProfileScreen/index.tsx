@@ -1,11 +1,13 @@
 import React, {FC, useState} from 'react';
 import {Image, Text, TextInput, View} from 'react-native';
+import {Control, Controller, RegisterOptions, useForm} from 'react-hook-form';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
+
 import {styles} from './styles';
 import user from '../../data/user.json';
-import {Control, Controller, RegisterOptions, useForm} from 'react-hook-form';
 import {IUser} from '../../types/models';
 import colors from '../../theme/colors';
-import {Asset, launchImageLibrary} from 'react-native-image-picker';
+import {WEBSITE_REGEX} from '../../constants/regex';
 
 type IEditableUser = Omit<IUser, 'posts' | 'id' | 'image'>;
 
@@ -126,7 +128,7 @@ export const EditProfileScreen = () => {
         rules={{
           required: 'Website is required',
           pattern: {
-            value: /http(s)?:\/\/([\w-]+.)+[\w-]+(\/[\w- ./?%&=])?/,
+            value: WEBSITE_REGEX,
             message: 'Invalid website',
           },
         }}

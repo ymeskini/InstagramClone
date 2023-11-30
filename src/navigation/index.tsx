@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {LinkingOptions, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {fetchAuthSession} from 'aws-amplify/auth';
+import {AuthSession} from '@aws-amplify/core/dist/esm/singleton/Auth/types';
+import {Hub} from 'aws-amplify/utils';
 
 import {BottomTabNavigator} from './BottomTabNavigator';
 import {CommentsScreen} from '../screens/CommentsScreen';
@@ -29,6 +32,39 @@ const linking: LinkingOptions<RootNavigatorParams> = {
 };
 
 export const Navigation = () => {
+  const [userSession, setUserSession] = useState<AuthSession | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      try {
+        const session = await fetchAuthSession({forceRefresh: true});
+        setUserSession(session);
+      } catch (error) {
+        // no session?
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUserSession();
+  }, []);
+
+  useEffect(() => {
+    const listener = Hub.listen('auth', data => {
+      if (data.payload.event === 'signedOut') {
+        setUserSession(null);
+      }
+    });
+
+    return () => {
+      listener();
+    };
+  }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <NavigationContainer linking={linking}>
       <Stack.Navigator
@@ -36,20 +72,23 @@ export const Navigation = () => {
         screenOptions={{
           headerShown: true,
         }}>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Auth"
-          component={AuthStackNavigator}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          component={BottomTabNavigator}
-          name="Home"
-        />
+        {!userSession ? (
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="Auth"
+            component={AuthStackNavigator}
+          />
+        ) : (
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            component={BottomTabNavigator}
+            name="Home"
+          />
+        )}
         <Stack.Screen name="Comments" component={CommentsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,26 +1,43 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React from 'react';
+import {useForm} from 'react-hook-form';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
+
 import FormInput from '../components/FormInput';
 import CustomButton from '../components/CustomButton';
-import SocialSignInButtons from '../components/SocialSignInButtons';
-import {useNavigation} from '@react-navigation/native';
-import {useForm} from 'react-hook-form';
-import {NewPasswordNavigationProp} from '../../../types/navigation';
+import {
+  NewPasswordNavigationProp,
+  NewPasswordRouteProps,
+} from '../../../types/navigation';
+import {confirmResetPassword} from 'aws-amplify/auth';
 
 type NewPasswordType = {
-  username: string;
   code: string;
   password: string;
 };
 
 const NewPasswordScreen = () => {
-  const {control, handleSubmit} = useForm<NewPasswordType>();
+  const route = useRoute<NewPasswordRouteProps>();
+
+  const {
+    control,
+    handleSubmit,
+    formState: {isSubmitting},
+  } = useForm<NewPasswordType>();
 
   const navigation = useNavigation<NewPasswordNavigationProp>();
 
-  const onSubmitPressed = (data: NewPasswordType) => {
-    console.warn(data);
-    navigation.navigate('Sign in');
+  const onSubmitPressed = async (data: NewPasswordType) => {
+    try {
+      await confirmResetPassword({
+        confirmationCode: data.code,
+        newPassword: data.password,
+        username: route.params.username,
+      });
+      navigation.navigate('Sign in');
+    } catch (err) {
+      Alert.alert('Failed to confirm email', (err as Error).message);
+    }
   };
 
   const onSignInPress = () => {
@@ -31,13 +48,6 @@ const NewPasswordScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title}>Reset your password</Text>
-
-        <FormInput
-          placeholder="Username"
-          name="username"
-          control={control}
-          rules={{required: 'Username is required'}}
-        />
 
         <FormInput
           placeholder="Code"
@@ -60,7 +70,11 @@ const NewPasswordScreen = () => {
           }}
         />
 
-        <CustomButton text="Submit" onPress={handleSubmit(onSubmitPressed)} />
+        <CustomButton
+          disabled={isSubmitting}
+          text="Submit"
+          onPress={handleSubmit(onSubmitPressed)}
+        />
 
         <CustomButton
           text="Back to Sign in"

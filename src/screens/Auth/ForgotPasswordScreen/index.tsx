@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
+import {useForm} from 'react-hook-form';
+import {useNavigation} from '@react-navigation/core';
+import {resetPassword} from 'aws-amplify/auth';
+
 import FormInput from '../components/FormInput';
 import CustomButton from '../components/CustomButton';
-import SocialSignInButtons from '../components/SocialSignInButtons';
-import {useNavigation} from '@react-navigation/core';
-import {useForm} from 'react-hook-form';
 import {ForgotPasswordNavigationProp} from '../../../types/navigation';
 
 type ForgotPasswordData = {
@@ -12,12 +13,24 @@ type ForgotPasswordData = {
 };
 
 const ForgotPasswordScreen = () => {
-  const {control, handleSubmit} = useForm<ForgotPasswordData>();
+  const {
+    control,
+    handleSubmit,
+    formState: {isSubmitting},
+  } = useForm<ForgotPasswordData>();
   const navigation = useNavigation<ForgotPasswordNavigationProp>();
 
-  const onSendPressed = (data: ForgotPasswordData) => {
-    console.warn(data);
-    navigation.navigate('New password');
+  const onSendPressed = async (data: ForgotPasswordData) => {
+    try {
+      await resetPassword({
+        username: data.username,
+      });
+      navigation.navigate('New password', {
+        username: data.username,
+      });
+    } catch (err) {
+      Alert.alert('Failed to send email', (err as Error).message);
+    }
   };
 
   const onSignInPress = () => {
@@ -38,7 +51,11 @@ const ForgotPasswordScreen = () => {
           }}
         />
 
-        <CustomButton text="Send" onPress={handleSubmit(onSendPressed)} />
+        <CustomButton
+          disabled={isSubmitting}
+          text="Send"
+          onPress={handleSubmit(onSendPressed)}
+        />
 
         <CustomButton
           text="Back to Sign in"

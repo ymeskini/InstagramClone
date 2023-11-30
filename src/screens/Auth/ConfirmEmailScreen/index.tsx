@@ -1,56 +1,62 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import FormInput from '../components/FormInput';
-import CustomButton from '../components/CustomButton';
-import SocialSignInButtons from '../components/SocialSignInButtons';
+import React from 'react';
+import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
+import {useRoute} from '@react-navigation/native';
+import {confirmSignUp, resendSignUpCode} from 'aws-amplify/auth';
+
+import FormInput from '../components/FormInput';
+import CustomButton from '../components/CustomButton';
 import {
   ConfirmEmailNavigationProp,
   ConfirmEmailRouteProp,
 } from '../../../types/navigation';
-import {useRoute} from '@react-navigation/native';
 
 type ConfirmEmailData = {
-  username: string;
   code: string;
 };
 
 const ConfirmEmailScreen = () => {
   const route = useRoute<ConfirmEmailRouteProp>();
-  const {control, handleSubmit} = useForm<ConfirmEmailData>({
-    defaultValues: {username: route.params.username},
-  });
+  const {
+    control,
+    handleSubmit,
+    formState: {isSubmitting},
+  } = useForm<ConfirmEmailData>();
 
   const navigation = useNavigation<ConfirmEmailNavigationProp>();
 
-  const onConfirmPressed = (data: ConfirmEmailData) => {
-    console.warn(data);
-    navigation.navigate('Sign in');
+  const onConfirmPressed = async (data: ConfirmEmailData) => {
+    try {
+      await confirmSignUp({
+        confirmationCode: data.code,
+        username: route.params.username as string,
+      });
+      navigation.navigate('Sign in');
+    } catch (err) {
+      Alert.alert('Failed to confirm email', (err as Error).message);
+    }
   };
 
   const onSignInPress = () => {
     navigation.navigate('Sign in');
   };
 
-  const onResendPress = () => {
-    console.warn('onResendPress');
+  const onResendPress = async () => {
+    try {
+      await resendSignUpCode({
+        username: route.params.username as string,
+      });
+      Alert.alert('Code resent successfully');
+    } catch (err) {
+      Alert.alert('Failed to resend code', (err as Error).message);
+    }
   };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title}>Confirm your email</Text>
-
-        <FormInput
-          name="username"
-          control={control}
-          placeholder="Username"
-          rules={{
-            required: 'Username is required',
-          }}
-        />
-
         <FormInput
           name="code"
           control={control}
@@ -60,7 +66,11 @@ const ConfirmEmailScreen = () => {
           }}
         />
 
-        <CustomButton text="Confirm" onPress={handleSubmit(onConfirmPressed)} />
+        <CustomButton
+          disabled={isSubmitting}
+          text="Confirm"
+          onPress={handleSubmit(onConfirmPressed)}
+        />
 
         <CustomButton
           text="Resend code"

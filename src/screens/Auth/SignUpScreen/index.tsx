@@ -1,18 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {useNavigation} from '@react-navigation/core';
+import {signUp} from 'aws-amplify/auth';
 
 import FormInput from '../components/FormInput';
 import CustomButton from '../components/CustomButton';
 import SocialSignInButtons from '../components/SocialSignInButtons';
 import {SignUpNavigationProp} from '../../../types/navigation';
 import colors from '../../../theme/colors';
-
-const EMAIL_REGEX =
-  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-const USERNAME_REGEX = /^[a-zA-Z0-9_]*$/; // alphanumeric and underscore
+import {EMAIL_REGEX, USERNAME_REGEX} from '../../../constants/regex';
 
 type SignUpData = {
   name: string;
@@ -23,12 +20,36 @@ type SignUpData = {
 };
 
 const SignUpScreen = () => {
-  const {control, handleSubmit, watch} = useForm<SignUpData>();
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: {isSubmitting},
+  } = useForm<SignUpData>();
   const pwd = watch('password');
   const navigation = useNavigation<SignUpNavigationProp>();
 
-  const onRegisterPressed = ({name, email, username, password}: SignUpData) => {
-    navigation.navigate('Confirm email', {username});
+  const onRegisterPressed = async ({
+    name,
+    email,
+    username,
+    password,
+  }: SignUpData) => {
+    try {
+      await signUp({
+        username,
+        password,
+        options: {
+          userAttributes: {
+            name,
+            email,
+          },
+        },
+      });
+      navigation.navigate('Confirm email', {username});
+    } catch (err) {
+      Alert.alert('Failed to sign up', (err as Error).message);
+    }
   };
 
   const onSignInPress = () => {
@@ -119,7 +140,7 @@ const SignUpScreen = () => {
         />
 
         <CustomButton
-          text="Register"
+          text={isSubmitting ? 'Loading...' : 'Register'}
           onPress={handleSubmit(onRegisterPressed)}
         />
 
